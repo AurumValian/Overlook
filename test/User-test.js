@@ -37,6 +37,6 @@ describe('User', () => {
   })
 
   it('should be able to return a string with the name', () => {
-    expect(user.sayHello()).to.equal("Hello, Rocio Shuster!");
+    expect(user.sayHello()).to.equal("Hello, Leatha Ullrich!");
   })
 })
