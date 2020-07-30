@@ -3,13 +3,15 @@ import User from '../src/User.js';
 const expect = chai.expect;
 
 describe('User', () => {
+  let user;
+  let users;
   before(() => {
-    const users = {"users":
+    users = {"users":
     [{"id": 1, "name": "Leatha Ullrich"},
     {"id": 2, "name": "Rocio Schuster"},
     {"id": 3, "name": "Kelvin Schiller"}]
   };
-    let user = new User(users.users[1]);
+    user = new User(users.users[1]);
   })
 
   it('should be a function', () => {
@@ -25,16 +27,16 @@ describe('User', () => {
   })
 
   it('should have a name', () => {
-    expect(user.name).to.equal("Rocio Shuster");
+    expect(user.name).to.equal("Rocio Schuster");
   })
 
   it('should be able to have a different id and name', () => {
-    user = new User(user.users[0]);
+    user = new User(users.users[0]);
     expect(user.id).to.equal(1);
     expect(user.name).to.equal("Leatha Ullrich");
   })
 
   it('should be able to return a string with the name', () => {
-    expect(user.sayHello()).to.equal("Hello, Rocio Shuster!");
+    expect(user.sayHello()).to.equal("Hello, Leatha Ullrich!");
   })
 })
