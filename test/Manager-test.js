@@ -26,4 +26,20 @@ describe('Manager', () => {
       {"number":5,"roomType":"single room","bidet":true,"bedSize":"queen","numBeds":2,"costPerNight":340.17},
       {"number":6,"roomType":"junior suite","bidet":true,"bedSize":"queen","numBeds":1,"costPerNight":397.02}
     ]}
+
+    it('should be a function', () => {
+      expect(Manager).to.be.a('function');
+    })
+
+    it('should create an instance of Manager', () => {
+      expect(manager).to.be.an.instanceOf(Manager);
+    })
+
+    it('should have an ID of manager', () => {
+      expect(manager.id).to.equal("manager");
+    })
+
+    it('should have a name of Overlook Manager', () => {
+      expect(manager.name).to.equal("Overlook Manager");
+    })
   })
