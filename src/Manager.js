@@ -20,3 +20,5 @@ class Manager extends User {
 
   }
 }
+
+export default Manager;

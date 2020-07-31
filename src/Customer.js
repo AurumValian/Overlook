@@ -13,3 +13,5 @@ class Customer extends User {
 
   }
 }
+
+export default Customer;
