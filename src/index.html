@@ -11,12 +11,27 @@
     </header>
     <form class="login-form">
       <label for="username">Username</label><br>
-      <input type="text" class="username-input" name="username"><br>
+      <input type="text" class="username-input" name="username" required><br>
       <label for="password">Password</label><br>
-      <input type="password" class="password-input" name="password">
+      <input type="password" class="password-input" name="password" required><br>
       <button class="login-button">Log In</button>
     </form>
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
+    <section class="customer-page">
+      <article class="customer-dashboard">
+        <h4>Your Booking Information</h4><br>
+        <p class="booking-area">Loading Information...</p><br>
+        <p class="amount-spent-area">Loading Information...</p><br>
+      </article>
+      <form class="search-available-rooms">
+        <label for="date">Select a Date:</label><br>
+        <input type="date" class="date-input" name="date" required></input><br>
+        <label for="room-type">Select One Room Type:</label><br>
+        <input type="checkbox" class="checkbox" name="single-room">Single Room</input><br>
+        <input type="checkbox" class="checkbox" name="junior-suite">Junior Suite</input><br>
+        <input type="checkbox" class="checkbox" name="residential-suite">Residential Suite</input><br>
+        <button class="submit-search-button">Submit Search</button>
+      </form>
+    </section>
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>
 </html>
