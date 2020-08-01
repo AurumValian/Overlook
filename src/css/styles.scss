@@ -29,3 +29,22 @@ form {
   font-size: 1.2em;
   text-align: center;
 }
+
+.login-form {
+  display: none;
+}
+
+.customer-page {
+  display: none;
+  grid-template-columns: 1fr 3fr;
+  margin-top: 5%;
+}
+
+.customer-dashboard {
+  text-align: center;
+  margin-left: 10%;
+  width: 100%;
+  border: 2px white solid;
+  height: 80%;
+
+}
