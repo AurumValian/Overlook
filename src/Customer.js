@@ -5,12 +5,20 @@ class Customer extends User {
     super(customer)
   }
 
-  seeBookings() {
-
+  returnBookings(bookingData) {
+    return bookingData.bookings.filter(booking => {
+      return this.id === booking.userID;
+    })
   }
 
-  totalAmountSpent() {
-
+  totalAmountSpent(bookingData, rooms) {
+    const customerBookings = this.returnBookings(bookingData);
+    return customerBookings.reduce((totalAmount, booking) => {
+      const bookedRoom = rooms.rooms.find(room => {
+        return booking.roomNumber === room.number;
+      })
+      return totalAmount + bookedRoom.costPerNight;
+    }, 0)
   }
 }
 
