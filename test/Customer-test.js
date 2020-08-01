@@ -15,8 +15,8 @@ describe('Customer', () => {
   };
     customer = new Customer(users.users[0]);
     bookings = {"bookings": [
-      {"id":"5fwrgu4i7k55hl6x8","userID":1,"date":"2020/01/11","roomNumber":20,"roomServiceCharges":[]},
-      {"id":"5fwrgu4i7k55hl72q","userID":1,"date":"2020/01/19","roomNumber":19,"roomServiceCharges":[]},
+      {"id":"5fwrgu4i7k55hl6x8","userID":1,"date":"2020/01/11","roomNumber":3,"roomServiceCharges":[]},
+      {"id":"5fwrgu4i7k55hl72q","userID":1,"date":"2020/01/19","roomNumber":6,"roomServiceCharges":[]},
       {"id":"5fwrgu4i7k55hl72u","userID":3,"date":"2020/02/17","roomNumber":4,"roomServiceCharges":[]},
       {"id":"5fwrgu4i7k55hl72v","userID":32,"date":"2020/01/25","roomNumber":9,"roomServiceCharges":[]}
     ]}
@@ -46,13 +46,17 @@ describe('Customer', () => {
   })
 
   it('should be able to return its room bookings', () => {
-    let customerBookings = customer.returnBookings();
+    let customerBookings = customer.returnBookings(bookings);
     expect(customerBookings).to.deep.equal(
       [
-        {"id":"5fwrgu4i7k55hl6x8","userID":1,"date":"2020/01/11","roomNumber":20,"roomServiceCharges":[]},
-        {"id":"5fwrgu4i7k55hl72q","userID":1,"date":"2020/01/19","roomNumber":19,"roomServiceCharges":[]}
+        {"id":"5fwrgu4i7k55hl6x8","userID":1,"date":"2020/01/11","roomNumber":3,"roomServiceCharges":[]},
+        {"id":"5fwrgu4i7k55hl72q","userID":1,"date":"2020/01/19","roomNumber":6,"roomServiceCharges":[]}
       ]
     )
+  })
+
+  it('should be able to see how much they have spent on rooms', () => {
+    expect(customer.totalAmountSpent(bookings, rooms)).to.equal(888.16);
   })
 
   it('should be able to filter rooms by type', () => {
