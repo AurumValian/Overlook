@@ -12,6 +12,7 @@ const moment = require("moment");
 moment().format("YYYY/MM/DD");
 
 let loadData = {};
+let user;
 window.onload = loadRuntime;
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -31,4 +32,36 @@ function fetchData(url, keyName) {
       loadData[keyName] = response[keyName];
     })
     .catch(error => console.log(error));
+}
+
+function logIn(username, password) {
+  const loginValue = validateLogin(username, password);
+  if (loginValue === 'manager') {
+    renderManagerPage();
+  } else if (0 < loginValue <= 50) {
+    renderCustomerPage(loginValue);
+  } else {
+    renderLoginErrorMessage();
+  }
+}
+
+function validateLogin(username, password) {
+  if (password !== 'overlook2020') {
+    return false;
+  } else if (username.includes('customer')) {
+    let customerID = username.slice(-2);
+    return Number(customerID);
+  }
+}
+
+function renderManagerPage() {
+
+}
+
+function renderCustomerPage(loginValue) {
+
+}
+
+function renderLoginErrorMessage() {
+
 }
