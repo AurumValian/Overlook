@@ -11,10 +11,15 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 moment().format("YYYY/MM/DD");
 
+const userWelcome = document.querySelector('.user-welcome');
+const loginForm = document.querySelector('.login-form');
 const usernameInput = document.querySelector('.username-input');
 const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 const loginError = document.querySelector('.login-error-message');
+const customerBookingInformation = document.querySelector('.booking-area');
+const customerSpendingInformation = document.querySelector('.amount-spent-area');
+const customerPage = document.querySelector('.customer-page');
 
 let loadData = {};
 let user;
@@ -63,8 +68,8 @@ function validateLogin(username, password) {
   if (password !== 'overlook2020') {
     return false;
   } else if (username.includes('customer')) {
-    const customerID = username.slice(-2);
-    return Number(customerID);
+    const customerID = Number(username.slice(-2));
+    return customerID;
   } else if (username === 'manager') {
     return 'manager';
   } else {
@@ -72,11 +77,23 @@ function validateLogin(username, password) {
   }
 }
 
+function findUser(id) {
+  return loadData.users.find(user => {
+    return user.id === id;
+  })
+}
+
 function renderManagerPage() {
 
 }
 
 function renderCustomerPage(loginValue) {
+  user = new Customer(findUser(loginValue));
+  customerBookingInformation.innerText = user.returnBookings(loadData);
+  customerSpendingInformation.innerText = user.totalAmountSpent(loadData, loadData);
+  userWelcome.innerText = user.sayHello();
+  loginForm.style.display = "none";
+  customerPage.style.display = "grid";
 
 }
 
