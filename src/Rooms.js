@@ -15,13 +15,13 @@ class Rooms {
     })
   }
 
-  roomsOccupiedPercentage() {
-    return Math.round(this.availableRoomsToday(loadData.bookings).length / this.rooms.length);
+  roomsOccupiedPercentage(bookings, date) {
+    return Math.round(((this.availableRooms(bookings, date).length / this.rooms.length) - 1) * -100);
   }
 
-  searchByType(type, date, bookings) {
+  searchByType(type, bookings, date) {
     return this.rooms.filter(room => {
-      const roomsAvailable = availableRooms(bookings, date);
+      const roomsAvailable = this.availableRooms(bookings, date);
       return (room.roomType === type && roomsAvailable.includes(room));
     })
   }
