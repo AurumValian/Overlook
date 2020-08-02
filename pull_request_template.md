@@ -9,9 +9,10 @@
 ### Files modified:
 - [ ] index.html
 - [ ] styles.scss
-- [ ] scripts.js
+- [ ] index.js
 - [ ] User.js
-- [ ] Room.js
+- [ ] Rooms.js
+- [ ] Customer.js
 - [ ] Manager.js
 - [ ] Test files
 - [ ] Other files:
