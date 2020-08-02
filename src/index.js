@@ -11,6 +11,7 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 moment().format("YYYY/MM/DD");
 
+const loginError = document.querySelector('.login-error-message');
 let loadData = {};
 let user;
 window.onload = loadRuntime;
@@ -49,8 +50,12 @@ function validateLogin(username, password) {
   if (password !== 'overlook2020') {
     return false;
   } else if (username.includes('customer')) {
-    let customerID = username.slice(-2);
+    const customerID = username.slice(-2);
     return Number(customerID);
+  } else if (username === 'manager') {
+    return 'manager';
+  } else {
+    return false;
   }
 }
 
@@ -63,5 +68,8 @@ function renderCustomerPage(loginValue) {
 }
 
 function renderLoginErrorMessage() {
-
+  loginError.style.display = "block";
+  setTimeout(() => {
+    loginError.style.display = "none"
+  }, 2500)
 }

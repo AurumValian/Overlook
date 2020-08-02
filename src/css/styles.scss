@@ -31,6 +31,10 @@ form {
 }
 
 .login-form {
+  // display: none;
+}
+
+.login-error-message {
   display: none;
 }
 
@@ -46,5 +50,4 @@ form {
   width: 100%;
   border: 2px white solid;
   height: 80%;
-
 }
