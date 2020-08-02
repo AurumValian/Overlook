@@ -1,4 +1,5 @@
 import User from './User';
+import Customer from './Customer';
 class Manager extends User {
   constructor() {
     super({id: "manager", name: "Overlook Manager"})
@@ -16,8 +17,17 @@ class Manager extends User {
     }, 0)
   }
 
-  searchUsersByName(name) {
-
+  searchUsersByName(users, name) {
+    const searchedUser = users.find(user => {
+      return user.name === name;
+    })
+    let searchedCustomer;
+    if (searchedUser) {
+      searchedCustomer = new Customer(searchedUser);
+    } else {
+      searchedCustomer = false;
+    }
+    return searchedCustomer;
   }
 }
 

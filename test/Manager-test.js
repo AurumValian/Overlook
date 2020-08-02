@@ -53,7 +53,7 @@ describe('Manager', () => {
   })
 
   it('should be able to search for customers by name', () => {
-    let searchedCustomer = manager.searchForCustomer("Leatha Ullrich");
-    expect(searchedCustomer).to.equal(customer);
+    let searchedCustomer = manager.searchUsersByName(users.users, "Leatha Ullrich");
+    expect(searchedCustomer).to.deep.equal(customer);
   })
 })
