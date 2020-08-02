@@ -11,11 +11,24 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 moment().format("YYYY/MM/DD");
 
+const usernameInput = document.querySelector('.username-input');
+const passwordInput = document.querySelector('.password-input');
+const loginButton = document.querySelector('.login-button');
 const loginError = document.querySelector('.login-error-message');
+
 let loadData = {};
 let user;
 window.onload = loadRuntime;
-console.log('This is the JavaScript entry file - your code begins here.');
+window.addEventListener('click', clickWrangler);
+
+function clickWrangler(event) {
+  if (event.target === loginButton) {
+    event.preventDefault();
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+    logIn(username, password);
+  }
+}
 
 //https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users - user data endpoint
 //https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms - room data endpoint
@@ -39,7 +52,7 @@ function logIn(username, password) {
   const loginValue = validateLogin(username, password);
   if (loginValue === 'manager') {
     renderManagerPage();
-  } else if (0 < loginValue <= 50) {
+  } else if (0 < loginValue && loginValue <= 50) {
     renderCustomerPage(loginValue);
   } else {
     renderLoginErrorMessage();
