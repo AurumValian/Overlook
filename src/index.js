@@ -9,8 +9,10 @@ import Customer from './Customer';
 import Rooms from './Rooms';
 const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
+
 moment().format("YYYY/MM/DD");
 
+const dateToday = "2020/01/27";
 const userWelcome = document.querySelector('.user-welcome');
 const loginForm = document.querySelector('.login-form');
 const usernameInput = document.querySelector('.username-input');
@@ -23,6 +25,7 @@ const customerPage = document.querySelector('.customer-page');
 
 let loadData = {};
 let user;
+let rooms;
 window.onload = loadRuntime;
 window.addEventListener('click', clickWrangler);
 
@@ -42,6 +45,7 @@ function loadRuntime() {
   fetchData('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users', 'users');
   fetchData('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms', 'rooms');
   fetchData('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', 'bookings');
+  rooms = new Rooms(loadData.rooms);
 }
 
 function fetchData(url, keyName) {
@@ -89,8 +93,8 @@ function renderManagerPage() {
 
 function renderCustomerPage(loginValue) {
   user = new Customer(findUser(loginValue));
-  customerBookingInformation.innerText = user.returnBookings(loadData);
-  customerSpendingInformation.innerText = user.totalAmountSpent(loadData, loadData);
+  customerBookingInformation.innerText = user.returnBookings(loadData.bookings);
+  customerSpendingInformation.innerText = user.totalAmountSpent(loadData.bookings, rooms.rooms);
   userWelcome.innerText = user.sayHello();
   loginForm.style.display = "none";
   customerPage.style.display = "grid";

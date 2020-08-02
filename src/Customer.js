@@ -6,7 +6,7 @@ class Customer extends User {
   }
 
   returnBookings(bookingData) {
-    return bookingData.bookings.filter(booking => {
+    return bookingData.filter(booking => {
       return this.id === booking.userID;
     })
   }
@@ -14,7 +14,7 @@ class Customer extends User {
   totalAmountSpent(bookingData, rooms) {
     const customerBookings = this.returnBookings(bookingData);
     return customerBookings.reduce((totalAmount, booking) => {
-      const bookedRoom = rooms.rooms.find(room => {
+      const bookedRoom = rooms.find(room => {
         return booking.roomNumber === room.number;
       })
       return totalAmount + bookedRoom.costPerNight;
