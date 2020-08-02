@@ -11,8 +11,21 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 moment().format("YYYY/MM/DD");
 
+let loadData = {};
+window.onload = loadRuntime;
 console.log('This is the JavaScript entry file - your code begins here.');
 
 //https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users - user data endpoint
 //https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms - room data endpoint
 //https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings - booking data endpoint
+function loadRuntime() {
+  loadData.users = fetchData('fe-apps.herokuapp.com/api/v1/overlook/1904/users/users');
+  loadData.rooms = fetchData('fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms');
+  loadData.bookings = fetchData('fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings');
+}
+
+function fetchData(url) {
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => console.log(error));
+}
