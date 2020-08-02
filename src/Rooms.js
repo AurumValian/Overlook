@@ -1,5 +1,5 @@
 class Rooms {
-  constructor() {
+  constructor(rooms) {
 
   }
 
@@ -12,6 +12,8 @@ class Rooms {
   }
 
   searchByType() {
-    
+
   }
 }
+
+export default Rooms;
