@@ -51,3 +51,11 @@ form {
   border: 2px white solid;
   height: 100%;
 }
+
+.manager-page {
+  @extend .customer-page;
+}
+
+.manager-dashboard {
+  @extend .customer-dashboard;
+}

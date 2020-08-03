@@ -11,6 +11,13 @@ class Customer extends User {
     })
   }
 
+  showSpecificBookings(bookingData) {
+    const userBookings = this.returnBookings(bookingData);
+    return userBookings.map(booking => {
+      return `You have a booking for room ${booking.roomNumber} on ${booking.date}.`;
+    })
+  }
+
   totalAmountSpent(bookingData, rooms) {
     const customerBookings = this.returnBookings(bookingData);
     return customerBookings.reduce((totalAmount, booking) => {

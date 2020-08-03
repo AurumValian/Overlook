@@ -22,6 +22,10 @@ const loginError = document.querySelector('.login-error-message');
 const customerBookingInformation = document.querySelector('.booking-area');
 const customerSpendingInformation = document.querySelector('.amount-spent-area');
 const customerPage = document.querySelector('.customer-page');
+const managerPage = document.querySelector('.manager-page');
+const availableRoomsArea = document.querySelector('.available-rooms-area');
+const revenueArea = document.querySelector('.revenue-area');
+const percentageOccupiedArea = document.querySelector('.percentage-occupied-area');
 
 let loadData = {};
 let user;
@@ -32,6 +36,7 @@ window.addEventListener('click', clickWrangler);
 function clickWrangler(event) {
   if (event.target === loginButton) {
     event.preventDefault();
+    rooms = new Rooms(loadData.rooms);
     const username = usernameInput.value;
     const password = passwordInput.value;
     logIn(username, password);
@@ -45,7 +50,6 @@ function loadRuntime() {
   fetchData('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users', 'users');
   fetchData('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms', 'rooms');
   fetchData('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', 'bookings');
-  rooms = new Rooms(loadData.rooms);
 }
 
 function fetchData(url, keyName) {
@@ -88,17 +92,35 @@ function findUser(id) {
 }
 
 function renderManagerPage() {
+  user = new Manager();
+  renderManagerDashboard();
+  userWelcome.innerText = user.sayHello();
+  loginForm.style.display = "none";
+  managerPage.style.display = "grid";
+}
 
+function renderManagerDashboard() {
+  const roomsAvailable = rooms.availableRooms(loadData.bookings, dateToday).length;
+  availableRoomsArea.innerText = `Number of Rooms Available: ${roomsAvailable}`;
+  const totalRevenue = user.totalRevenue(rooms.rooms, loadData.bookings, dateToday);
+  revenueArea.innerText = `Amount Earned Today : $${totalRevenue.toFixed(2)}`;
+  const percentageOccupied = rooms.roomsOccupiedPercentage(loadData.bookings, dateToday);
+  percentageOccupiedArea.innerText = `Percent of Rooms Occupied Today: ${percentageOccupied}%`;
 }
 
 function renderCustomerPage(loginValue) {
   user = new Customer(findUser(loginValue));
-  customerBookingInformation.innerText = user.returnBookings(loadData.bookings);
-  customerSpendingInformation.innerText = user.totalAmountSpent(loadData.bookings, rooms.rooms);
+  renderCustomerDashboard();
   userWelcome.innerText = user.sayHello();
   loginForm.style.display = "none";
   customerPage.style.display = "grid";
+}
 
+function renderCustomerDashboard() {
+  const userBookings = user.showSpecificBookings(loadData.bookings).join('\n');
+  customerBookingInformation.innerText = `Your Bookings: \n ${userBookings}`;
+  const customerAmountSpent = user.totalAmountSpent(loadData.bookings, rooms.rooms).toFixed(2);
+  customerSpendingInformation.innerText = `Amount Spent on Rooms: $${customerAmountSpent}`;
 }
 
 function renderLoginErrorMessage() {
