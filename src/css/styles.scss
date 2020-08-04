@@ -7,14 +7,15 @@ padding: 0;
 }
 
 body {
-  background-color: lightsteelblue;
-  font-family: Arial, sans-serif
+  background-color: #F9DC5C;
+  font-family: Arial, sans-serif;
+  color: #465362;
 }
 
 header {
-  background-color: darken(lightsteelblue, 30);
+  background-color: #011936;
   text-align: center;
-  color: lightsteelblue;
+  color: #F9DC5C;
 }
 
 h1 {
@@ -30,8 +31,16 @@ form {
   text-align: center;
 }
 
+button {
+  font-size: .7em;
+}
+
+input {
+  font-size: .7em;
+}
+
 .login-form {
-  font-size: 2.5em;
+  font-size: 2em;
 }
 
 .login-error-message {
@@ -46,9 +55,11 @@ form {
 
 .customer-dashboard {
   text-align: center;
+  font-size: 1.4em;
   margin-left: 10%;
   width: 100%;
-  border: 2px white solid;
+  border: solid 6px lightsteelblue;
+  background-color: #BDD4E7;
   height: 100%;
 }
 
@@ -57,7 +68,7 @@ form {
 }
 
 .search-available-rooms{
-   font-size: 3em;
+   font-size: 2em;
    text-align: center;
 }
 
@@ -70,6 +81,8 @@ form {
 }
 
 .manager-interaction-page {
+  margin-left: 5%;
+  font-size: 1.5em;
   display: none
 }
 
@@ -83,7 +96,8 @@ form {
   margin-top: 2%;
   margin-left: 5%;
   margin-right: 5%;
-  background-color: bisque;
+  border: solid 6px lightsteelblue;
+  background-color: #BDD4E7;
   margin-bottom: 2%;
   text-align: center;
   font-size: 2em;
