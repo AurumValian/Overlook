@@ -59,3 +59,7 @@ form {
 .manager-dashboard {
   @extend .customer-dashboard;
 }
+
+.manager-interaction-page {
+  display: none
+}
