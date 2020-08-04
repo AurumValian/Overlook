@@ -63,3 +63,10 @@ form {
 .manager-interaction-page {
   display: none
 }
+
+.room-card {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+}

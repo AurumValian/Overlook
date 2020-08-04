@@ -256,8 +256,6 @@ function postNewBooking(newBooking) {
 function findBookingID(date, roomNumber, id) {
   if (date > dateToday) {
     let foundBooking = loadData.bookings.find(booking => {
-      // console.log(Number(roomNumber))
-      // console.log(booking.date, date, booking.roomNumber, roomNumber, booking.userID, id);
       return booking.date === date && booking.roomNumber === Number(roomNumber) && booking.userID === id;
     })
     return { "id": foundBooking.id };
