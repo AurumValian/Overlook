@@ -10,8 +10,7 @@ import Rooms from './Rooms';
 const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 
-moment().format("YYYY/MM/DD");
-const dateToday = "2020/01/01";
+const dateToday = moment(Date.now()).format("YYYY/MM/DD");
 
 const userWelcome = document.querySelector('.user-welcome');
 const loginForm = document.querySelector('.login-form');
@@ -35,6 +34,12 @@ const customerNameInput = document.querySelector('.customer-name-input');
 const searchUsersButton = document.querySelector('.submit-search-users-button');
 const searchedRoomsPage = document.querySelector('.searched-rooms');
 const managerInteractionPage = document.querySelector('.manager-interaction-page');
+const deleteRoomInput = document.querySelector('.delete-room-input');
+const deleteDateInput = document.querySelector('.delete-date-input');
+const deleteBookingButton = document.querySelector('.delete-button');
+
+dateInput.defaultValue = "2020-01-01";
+deleteDateInput.defaultValue = "2020-01-01";
 
 let loadData = {};
 let user;
@@ -69,19 +74,14 @@ function clickWrangler(event) {
     event.preventDefault();
     customerSearchRooms('suite', moment(dateInput.value).format("YYYY/MM/DD"));
   }
-  // if (bookRoomButtons.includes(event.target)) {
-  //   const roomText = event.target.closest(".room-card").children[0].innerText;
-  //   const roomNumber = Number(roomText.slice(-1));
-  //   if (user.id === "manager") {
-  //     console.log(customer.id);
-  //   } else {
-  //     const bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
-  //     console.log(bookingObject);
-  //   }
-  // }
   if (event.target === searchUsersButton) {
     event.preventDefault();
     showSearchedCustomer(customerNameInput.value);
+  }
+  if (event.target === deleteBookingButton) {
+    event.preventDefault();
+    const bookingID = findBookingID(moment(deleteDateInput.value).format("YYYY/MM/DD"), deleteRoomInput.value, puppet.id);
+    deleteBooking(bookingID);
   }
 }
 
@@ -251,6 +251,19 @@ function postNewBooking(newBooking) {
   })
     .then(response => response.json())
     .catch(error => console.log(error));
+}
+
+function findBookingID(date, roomNumber, id) {
+  if (date > dateToday) {
+    let foundBooking = loadData.bookings.find(booking => {
+      // console.log(Number(roomNumber))
+      // console.log(booking.date, date, booking.roomNumber, roomNumber, booking.userID, id);
+      return booking.date === date && booking.roomNumber === Number(roomNumber) && booking.userID === id;
+    })
+    return { "id": foundBooking.id };
+  } else {
+    return false;
+  }
 }
 
 function deleteBooking(bookingID) {
