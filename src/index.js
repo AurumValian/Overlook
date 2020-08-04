@@ -31,6 +31,8 @@ const singleRoomButton = document.querySelector('.single-room-button');
 const juniorSuiteButton = document.querySelector('.junior-suite-button');
 const residentialSuiteButton = document.querySelector('.residential-suite-button');
 const suiteButton = document.querySelector('.suite-button');
+const customerNameInput = document.querySelector('.customer-name-input');
+const searchUsersButton = document.querySelector('.submit-search-users-button');
 const searchedRoomsPage = document.querySelector('.searched-rooms');
 const managerInteractionPage = document.querySelector('.manager-interaction-page');
 
@@ -41,6 +43,7 @@ window.onload = loadRuntime;
 window.addEventListener('click', clickWrangler);
 
 function clickWrangler(event) {
+  const bookRoomButton = document.querySelector('.book-room-button');
   if (event.target === loginButton) {
     event.preventDefault();
     rooms = new Rooms(loadData.rooms);
@@ -63,6 +66,20 @@ function clickWrangler(event) {
   if (event.target === suiteButton) {
     event.preventDefault();
     customerSearchRooms('suite', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === bookRoomButton) {
+    const roomText = event.target.closest(".room-card").children[0].innerText;
+    const roomNumber = Number(roomText.slice(-1));
+    if (user.id === "manager") {
+      console.log(customer.id);
+    } else {
+      const bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
+      console.log(bookingObject);
+    }
+  }
+  if (event.target === searchUsersButton) {
+    event.preventDefault();
+    showSearchedCustomer(customerNameInput.value);
   }
 }
 
@@ -188,10 +205,31 @@ function showSearchedCustomer(name) {
   const searchedCustomer = user.searchUsersByName(loadData.users, name);
   const customer = new Customer(searchedCustomer);
   renderCustomerDashboard(customer);
+  customerPage.style.display = "grid";
   renderManagerInteractions();
 }
 
 function renderManagerInteractions() {
   managerPage.style.display = "none";
   managerInteractionPage.style.display = "block";
+}
+
+function buildBookingObject(user, date, roomNumber) {
+  return {
+    "userID": user,
+    "date": date,
+    "roomNumber": roomNumber
+  }
+}
+
+function postNewBooking(newBooking) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(newBooking)
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
 }

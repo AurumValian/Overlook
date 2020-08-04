@@ -59,3 +59,7 @@ form {
 .manager-dashboard {
   @extend .customer-dashboard;
 }
+
+.delete-bookings {
+  display: none
+}
