@@ -11,8 +11,8 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 
 moment().format("YYYY/MM/DD");
+const dateToday = "2020/02/27";
 
-const dateToday = "2020/01/27";
 const userWelcome = document.querySelector('.user-welcome');
 const loginForm = document.querySelector('.login-form');
 const usernameInput = document.querySelector('.username-input');
@@ -26,6 +26,8 @@ const managerPage = document.querySelector('.manager-page');
 const availableRoomsArea = document.querySelector('.available-rooms-area');
 const revenueArea = document.querySelector('.revenue-area');
 const percentageOccupiedArea = document.querySelector('.percentage-occupied-area');
+const searchedRoomsPage = document.querySelector('.searched-rooms');
+const singleRoomButton = document.querySelector('.single-room-button');
 
 let loadData = {};
 let user;
@@ -40,6 +42,10 @@ function clickWrangler(event) {
     const username = usernameInput.value;
     const password = passwordInput.value;
     logIn(username, password);
+  }
+  if (event.target === singleRoomButton) {
+    event.preventDefault();
+    customerSearchRooms('single room', dateToday);
   }
 }
 
@@ -128,4 +134,25 @@ function renderLoginErrorMessage() {
   setTimeout(() => {
     loginError.style.display = "none"
   }, 2500)
+}
+
+function customerSearchRooms(type, date) {
+  const roomsFound = rooms.searchByType(type, loadData.bookings, date);
+  searchedRoomsPage.innerHTML = "";
+  roomsFound.forEach(room => {
+    renderRoomFound(room);
+  })
+}
+
+function renderRoomFound(room) {
+  searchedRoomsPage.innerHTML += `
+  <article class="room-card">
+    <p class="room-number">Room ${room.number}<p><br>
+    <p class="bidet">Bidet: ${room.bidet ? "yes" : "no"}</p><br>
+    <p class="bed-size">Bed Size: ${room.bedSize}</p><br>
+    <p class="num-beds">Number of Beds: ${room.numBeds}</p><br>
+    <p class="price">Price: $${room.costPerNight}</p><br>
+    <button class="book-room-button">Book Room</button>
+  </article>
+  `
 }
