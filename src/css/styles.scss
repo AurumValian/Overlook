@@ -1,3 +1,6 @@
+@import 'variables';
+@import 'pages';
+
 *,
 *:after,
 *:before {
@@ -11,15 +14,15 @@ html {
 }
 
 body {
-  background-color: #F9DC5C;
+  background-color: $yellow;
   font-family: Arial, sans-serif;
-  color: #465362;
+  color: $text-color;
 }
 
 header {
-  background-color: #011936;
+  background-color: $dark-blue;
   text-align: center;
-  color: #F9DC5C;
+  color: $yellow;
 }
 
 main {
@@ -47,31 +50,6 @@ input {
   font-size: .9em;
 }
 
-.login-form {
-  font-size: 2em;
-}
-
-.login-error-message {
-  display: none;
-}
-
-.customer-page {
-  display: none;
-  grid-template-columns: 1fr 3fr;
-  margin-top: 3%;
-}
-
-.customer-dashboard {
-  text-align: center;
-  font-size: 1.4em;
-  margin-left: 10%;
-  width: 100%;
-  border: solid 6px lightsteelblue;
-  background-color: #BDD4E7;
-  height: 25em;
-  overflow: scroll;
-}
-
 .booking-confirmation {
   grid-column: 2;
 }
@@ -81,41 +59,13 @@ input {
    text-align: center;
 }
 
-.manager-page {
-  @extend .customer-page;
-}
-
-.manager-dashboard {
-  @extend .customer-dashboard;
-}
-
-.manager-interaction-page {
-  margin-left: 5%;
-  font-size: 1.5em;
-  display: none
-}
-
-.searched-rooms {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
 .room-card {
   margin-top: 2%;
   margin-left: 5%;
   margin-right: 5%;
-  border: solid 6px lightsteelblue;
-  background-color: #BDD4E7;
+  border: solid 6px $border-color;
+  background-color: $card-color;
   margin-bottom: 2%;
   text-align: center;
   font-size: 2em;
-}
-
-.book-room-button {
-  width: 40%;
-}
-
-.booking-confirmation {
-  margin-left: 5%;
 }
