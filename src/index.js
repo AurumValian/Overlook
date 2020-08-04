@@ -32,6 +32,7 @@ const juniorSuiteButton = document.querySelector('.junior-suite-button');
 const residentialSuiteButton = document.querySelector('.residential-suite-button');
 const suiteButton = document.querySelector('.suite-button');
 const searchedRoomsPage = document.querySelector('.searched-rooms');
+const managerInteractionPage = document.querySelector('.manager-interaction-page');
 
 let loadData = {};
 let user;
@@ -132,13 +133,13 @@ function renderManagerDashboard() {
 
 function renderCustomerPage(loginValue) {
   user = new Customer(findUser(loginValue));
-  renderCustomerDashboard();
+  renderCustomerDashboard(user);
   userWelcome.innerText = user.sayHello();
   loginForm.style.display = "none";
   customerPage.style.display = "grid";
 }
 
-function renderCustomerDashboard() {
+function renderCustomerDashboard(user) {
   const userBookings = user.showSpecificBookings(loadData.bookings).join('\n');
   customerBookingInformation.innerText = `Your Bookings: \n ${userBookings}`;
   const customerAmountSpent = user.totalAmountSpent(loadData.bookings, rooms.rooms).toFixed(2);
@@ -181,4 +182,16 @@ function renderRoomFound(room) {
     <button class="book-room-button">Book Room</button>
   </article>
   `
+}
+
+function showSearchedCustomer(name) {
+  const searchedCustomer = user.searchUsersByName(loadData.users, name);
+  const customer = new Customer(searchedCustomer);
+  renderCustomerDashboard(customer);
+  renderManagerInteractions();
+}
+
+function renderManagerInteractions() {
+  managerPage.style.display = "none";
+  managerInteractionPage.style.display = "block";
 }

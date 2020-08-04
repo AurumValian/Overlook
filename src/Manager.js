@@ -21,13 +21,11 @@ class Manager extends User {
     const searchedUser = users.find(user => {
       return user.name === name;
     })
-    let searchedCustomer;
     if (searchedUser) {
-      searchedCustomer = new Customer(searchedUser);
+      return searchedUser;
     } else {
-      searchedCustomer = false;
+      return false;
     }
-    return searchedCustomer;
   }
 }
 
