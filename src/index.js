@@ -30,6 +30,7 @@ const singleRoomButton = document.querySelector('.single-room-button');
 const juniorSuiteButton = document.querySelector('.junior-suite-button');
 const residentialSuiteButton = document.querySelector('.residential-suite-button');
 const suiteButton = document.querySelector('.suite-button');
+const bookingConfirmation = document.querySelector('.booking-confirmation');
 const customerNameInput = document.querySelector('.customer-name-input');
 const searchUsersButton = document.querySelector('.submit-search-users-button');
 const searchedRoomsPage = document.querySelector('.searched-rooms');
@@ -90,14 +91,14 @@ function bookingClickWrangler(event) {
   bookRoomButtons.forEach(button => {
     if (button === event.target) {
       const roomText = event.target.closest(".room-card").children[0].innerText;
-      const roomNumber = Number(roomText.slice(-1));
+      const roomNumber = Number(roomText.slice(-2));
       let bookingObject;
       if (user.id === "manager") {
         bookingObject = buildBookingObject(puppetUser.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       } else {
         bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       }
-      postNewBooking(bookingObject);
+      bookAndRenderPage(user, bookingObject);
     }
   })
 }
@@ -208,6 +209,7 @@ function customerSearchRooms(type, date) {
 }
 
 function renderRoomFound(room) {
+  searchedRoomsPage.style.display = "grid";
   searchedRoomsPage.innerHTML += `
   <article class="room-card">
     <p class="room-number">Room ${room.number}<p><br>
@@ -217,7 +219,7 @@ function renderRoomFound(room) {
     <p class="price">Price: $${room.costPerNight}</p><br>
     <button class="book-room-button">Book Room</button>
   </article>
-  `
+  `;
 }
 
 function showSearchedCustomer(name) {
@@ -251,6 +253,18 @@ function postNewBooking(newBooking) {
   })
     .then(response => response.json())
     .catch(error => console.log(error));
+}
+
+function bookAndRenderPage(user, bookingObject) {
+  postNewBooking(bookingObject);
+  bookingConfirmation.innerText = `You have booked room ${bookingObject.roomNumber} for ${bookingObject.date}!`;
+  searchedRoomsPage.style.display = "none";
+  loadRuntime();
+  if (user.id === "manager") {
+    renderManagerPage();
+  } else {
+    renderCustomerPage(user.id);
+  }
 }
 
 function findBookingID(date, roomNumber, id) {
