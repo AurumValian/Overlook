@@ -38,6 +38,7 @@ const managerInteractionPage = document.querySelector('.manager-interaction-page
 const deleteRoomInput = document.querySelector('.delete-room-input');
 const deleteDateInput = document.querySelector('.delete-date-input');
 const deleteBookingButton = document.querySelector('.delete-button');
+const puppetUserName = document.querySelector('.puppet-user-name');
 
 dateInput.defaultValue = "2020-01-01";
 deleteDateInput.defaultValue = "2020-01-01";
@@ -237,6 +238,7 @@ function showSearchedCustomer(name) {
 function renderManagerInteractions() {
   managerPage.style.display = "none";
   managerInteractionPage.style.display = "block";
+  puppetUserName.innerText = `${puppetUser.name}'s page`;
 }
 
 function buildBookingObject(user, date, roomNumber) {
