@@ -26,8 +26,12 @@ const managerPage = document.querySelector('.manager-page');
 const availableRoomsArea = document.querySelector('.available-rooms-area');
 const revenueArea = document.querySelector('.revenue-area');
 const percentageOccupiedArea = document.querySelector('.percentage-occupied-area');
-const searchedRoomsPage = document.querySelector('.searched-rooms');
+const dateInput = document.querySelector('.date-input');
 const singleRoomButton = document.querySelector('.single-room-button');
+const juniorSuiteButton = document.querySelector('.junior-suite-button');
+const residentialSuiteButton = document.querySelector('.residential-suite-button');
+const suiteButton = document.querySelector('.suite-button');
+const searchedRoomsPage = document.querySelector('.searched-rooms');
 
 let loadData = {};
 let user;
@@ -45,7 +49,19 @@ function clickWrangler(event) {
   }
   if (event.target === singleRoomButton) {
     event.preventDefault();
-    customerSearchRooms('single room', dateToday);
+    customerSearchRooms('single room', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === juniorSuiteButton) {
+    event.preventDefault();
+    customerSearchRooms('junior suite', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === residentialSuiteButton) {
+    event.preventDefault();
+    customerSearchRooms('residential suite', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === suiteButton) {
+    event.preventDefault();
+    customerSearchRooms('suite', moment(dateInput.value).format("YYYY/MM/DD"));
   }
 }
 
@@ -137,11 +153,17 @@ function renderLoginErrorMessage() {
 }
 
 function customerSearchRooms(type, date) {
-  const roomsFound = rooms.searchByType(type, loadData.bookings, date);
-  searchedRoomsPage.innerHTML = "";
-  roomsFound.forEach(room => {
-    renderRoomFound(room);
-  })
+  if (!date || date <= dateToday) {
+    searchedRoomsPage.innerHTML = `
+      <p class="date-error">Please enter a date after ${dateToday}</p>
+      `
+  } else {
+    const roomsFound = rooms.searchByType(type, loadData.bookings, date);
+    searchedRoomsPage.innerHTML = "";
+    roomsFound.forEach(room => {
+      renderRoomFound(room);
+    })
+  }
 }
 
 function renderRoomFound(room) {
