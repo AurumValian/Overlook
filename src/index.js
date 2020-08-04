@@ -44,7 +44,7 @@ deleteDateInput.defaultValue = "2020-01-01";
 let loadData = {};
 let user;
 let rooms;
-let puppet;
+let puppetUser;
 window.onload = loadRuntime;
 window.addEventListener('click', clickWrangler);
 searchedRoomsPage.addEventListener('click', bookingClickWrangler);
@@ -80,7 +80,7 @@ function clickWrangler(event) {
   }
   if (event.target === deleteBookingButton) {
     event.preventDefault();
-    const bookingID = findBookingID(moment(deleteDateInput.value).format("YYYY/MM/DD"), deleteRoomInput.value, puppet.id);
+    const bookingID = findBookingID(moment(deleteDateInput.value).format("YYYY/MM/DD"), deleteRoomInput.value, puppetUser.id);
     deleteBooking(bookingID);
   }
 }
@@ -93,7 +93,7 @@ function bookingClickWrangler(event) {
       const roomNumber = Number(roomText.slice(-1));
       let bookingObject;
       if (user.id === "manager") {
-        bookingObject = buildBookingObject(puppet.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
+        bookingObject = buildBookingObject(puppetUser.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       } else {
         bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       }
@@ -222,8 +222,8 @@ function renderRoomFound(room) {
 
 function showSearchedCustomer(name) {
   const searchedCustomer = user.searchUsersByName(loadData.users, name);
-  puppet = new Customer(searchedCustomer);
-  renderCustomerDashboard(puppet);
+  puppetUser = new Customer(searchedCustomer);
+  renderCustomerDashboard(puppetUser);
   customerPage.style.display = "grid";
   renderManagerInteractions();
 }
