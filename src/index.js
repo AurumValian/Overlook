@@ -30,7 +30,7 @@ const singleRoomButton = document.querySelector('.single-room-button');
 const juniorSuiteButton = document.querySelector('.junior-suite-button');
 const residentialSuiteButton = document.querySelector('.residential-suite-button');
 const suiteButton = document.querySelector('.suite-button');
-const bookingConfirmation = document.querySelector('.booking-confirmation');
+const confirmationOrErrorText = document.querySelector('.booking-confirmation');
 const customerNameInput = document.querySelector('.customer-name-input');
 const searchUsersButton = document.querySelector('.submit-search-users-button');
 const searchedRoomsPage = document.querySelector('.searched-rooms');
@@ -82,7 +82,12 @@ function clickWrangler(event) {
   if (event.target === deleteBookingButton) {
     event.preventDefault();
     const bookingID = findBookingID(moment(deleteDateInput.value).format("YYYY/MM/DD"), deleteRoomInput.value, puppetUser.id);
-    deleteBooking(bookingID);
+    if (bookingID) {
+      deleteBooking(bookingID);
+      confirmationOrErrorText.innerText = "You have deleted a booking for this user."
+    } else {
+      confirmationOrErrorText.innerText = "Invalid booking. Please choose a room and date for this user for a future booking.";
+    }
   }
 }
 
@@ -192,11 +197,10 @@ function renderLoginErrorMessage() {
 
 function customerSearchRooms(type, date) {
   if (!date || date <= dateToday) {
-    searchedRoomsPage.innerHTML = `
-      <p class="date-error">Please enter a date after ${dateToday}</p>
-      `
+    confirmationOrErrorText.innerText = `Please enter a date after ${dateToday}.`
   } else {
     const roomsFound = rooms.searchByType(type, loadData.bookings, date);
+    confirmationOrErrorText.innerText = "";
     searchedRoomsPage.innerHTML = "";
     if (roomsFound.length === 0) {
       searchedRoomsPage.innerHTML = "<p class='no-rooms-message'>We are SO, SO, SO SORRY!\nWe apologize for the inconvenience, but there are no available rooms for that room type.\nPlease select a different room type or date.</p>"
@@ -257,7 +261,7 @@ function postNewBooking(newBooking) {
 
 function bookAndRenderPage(user, bookingObject) {
   postNewBooking(bookingObject);
-  bookingConfirmation.innerText = `You have booked room ${bookingObject.roomNumber} for ${bookingObject.date}!`;
+  confirmationOrErrorText.innerText = `You have booked room ${bookingObject.roomNumber} for ${bookingObject.date}!`;
   searchedRoomsPage.style.display = "none";
   loadRuntime();
   if (user.id === "manager") {

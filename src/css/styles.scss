@@ -6,6 +6,10 @@ margin: 0;
 padding: 0;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: #F9DC5C;
   font-family: Arial, sans-serif;
@@ -16,6 +20,10 @@ header {
   background-color: #011936;
   text-align: center;
   color: #F9DC5C;
+}
+
+main {
+  height: 200%;
 }
 
 h1 {
@@ -36,7 +44,7 @@ button {
 }
 
 input {
-  font-size: .7em;
+  font-size: .9em;
 }
 
 .login-form {
@@ -50,7 +58,7 @@ input {
 .customer-page {
   display: none;
   grid-template-columns: 1fr 3fr;
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
 .customer-dashboard {
@@ -60,7 +68,8 @@ input {
   width: 100%;
   border: solid 6px lightsteelblue;
   background-color: #BDD4E7;
-  height: 100%;
+  height: 25em;
+  overflow: scroll;
 }
 
 .booking-confirmation {
