@@ -26,11 +26,11 @@
       <form class="search-available-rooms">
         <label for="date">Select a Date:</label><br>
         <input type="date" class="date-input" name="date" required></input><br>
-        <label for="room-type">Select One Room Type:</label><br>
-        <input type="checkbox" class="checkbox" name="single-room">Single Room</input><br>
-        <input type="checkbox" class="checkbox" name="junior-suite">Junior Suite</input><br>
-        <input type="checkbox" class="checkbox" name="residential-suite">Residential Suite</input><br>
-        <button class="submit-search-button">Submit Search</button>
+        <label for="room-type">Search By Room Type</label><br>
+        <button class="single-room-button" name="single-room">Single Room</button><br>
+        <button class="junior-suite-button" name="junior-suite">Junior Suite</button><br>
+        <button class="residential-suite-button" name="residential-suite">Residential Suite</button><br>
+        <button class="suite-button" name="suite">Suite</button><br>
       </form>
     </section>
     <section class="manager-page">
@@ -45,6 +45,8 @@
         <input type="text" class="username-input" name="username" required></input><br>
         <button class="submit-search-users-button">Submit Search</button>
       </form>
+    </section>
+    <section class="searched-rooms">
     </section>
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>

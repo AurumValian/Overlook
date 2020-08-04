@@ -11,8 +11,8 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 
 moment().format("YYYY/MM/DD");
+const dateToday = "2020/02/27";
 
-const dateToday = "2020/01/27";
 const userWelcome = document.querySelector('.user-welcome');
 const loginForm = document.querySelector('.login-form');
 const usernameInput = document.querySelector('.username-input');
@@ -26,6 +26,12 @@ const managerPage = document.querySelector('.manager-page');
 const availableRoomsArea = document.querySelector('.available-rooms-area');
 const revenueArea = document.querySelector('.revenue-area');
 const percentageOccupiedArea = document.querySelector('.percentage-occupied-area');
+const dateInput = document.querySelector('.date-input');
+const singleRoomButton = document.querySelector('.single-room-button');
+const juniorSuiteButton = document.querySelector('.junior-suite-button');
+const residentialSuiteButton = document.querySelector('.residential-suite-button');
+const suiteButton = document.querySelector('.suite-button');
+const searchedRoomsPage = document.querySelector('.searched-rooms');
 
 let loadData = {};
 let user;
@@ -40,6 +46,22 @@ function clickWrangler(event) {
     const username = usernameInput.value;
     const password = passwordInput.value;
     logIn(username, password);
+  }
+  if (event.target === singleRoomButton) {
+    event.preventDefault();
+    customerSearchRooms('single room', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === juniorSuiteButton) {
+    event.preventDefault();
+    customerSearchRooms('junior suite', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === residentialSuiteButton) {
+    event.preventDefault();
+    customerSearchRooms('residential suite', moment(dateInput.value).format("YYYY/MM/DD"));
+  }
+  if (event.target === suiteButton) {
+    event.preventDefault();
+    customerSearchRooms('suite', moment(dateInput.value).format("YYYY/MM/DD"));
   }
 }
 
@@ -128,4 +150,31 @@ function renderLoginErrorMessage() {
   setTimeout(() => {
     loginError.style.display = "none"
   }, 2500)
+}
+
+function customerSearchRooms(type, date) {
+  if (!date || date <= dateToday) {
+    searchedRoomsPage.innerHTML = `
+      <p class="date-error">Please enter a date after ${dateToday}</p>
+      `
+  } else {
+    const roomsFound = rooms.searchByType(type, loadData.bookings, date);
+    searchedRoomsPage.innerHTML = "";
+    roomsFound.forEach(room => {
+      renderRoomFound(room);
+    })
+  }
+}
+
+function renderRoomFound(room) {
+  searchedRoomsPage.innerHTML += `
+  <article class="room-card">
+    <p class="room-number">Room ${room.number}<p><br>
+    <p class="bidet">Bidet: ${room.bidet ? "yes" : "no"}</p><br>
+    <p class="bed-size">Bed Size: ${room.bedSize}</p><br>
+    <p class="num-beds">Number of Beds: ${room.numBeds}</p><br>
+    <p class="price">Price: $${room.costPerNight}</p><br>
+    <button class="book-room-button">Book Room</button>
+  </article>
+  `
 }
