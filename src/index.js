@@ -11,7 +11,7 @@ const moment = require("moment");
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 
 moment().format("YYYY/MM/DD");
-const dateToday = "2020/02/27";
+const dateToday = "2020/01/01";
 
 const userWelcome = document.querySelector('.user-welcome');
 const loginForm = document.querySelector('.login-form');
@@ -160,9 +160,13 @@ function customerSearchRooms(type, date) {
   } else {
     const roomsFound = rooms.searchByType(type, loadData.bookings, date);
     searchedRoomsPage.innerHTML = "";
-    roomsFound.forEach(room => {
+    if (roomsFound.length === 0) {
+      searchedRoomsPage.innerHTML = "<p class='no-rooms-message'>We are SO, SO, SO SORRY!\nWe apologize for the inconvenience, but there are no available rooms for that room type.\nPlease select a different room type or date.</p>"
+    } else {
+      roomsFound.forEach(room => {
       renderRoomFound(room);
-    })
+      })
+    }
   }
 }
 
