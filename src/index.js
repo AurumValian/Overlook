@@ -39,11 +39,13 @@ const managerInteractionPage = document.querySelector('.manager-interaction-page
 let loadData = {};
 let user;
 let rooms;
+let puppet;
 window.onload = loadRuntime;
 window.addEventListener('click', clickWrangler);
+searchedRoomsPage.addEventListener('click', bookingClickWrangler);
 
 function clickWrangler(event) {
-  const bookRoomButton = document.querySelector('.book-room-button');
+  const bookRoomButtons = document.querySelectorAll('.book-room-button');
   if (event.target === loginButton) {
     event.preventDefault();
     rooms = new Rooms(loadData.rooms);
@@ -67,20 +69,37 @@ function clickWrangler(event) {
     event.preventDefault();
     customerSearchRooms('suite', moment(dateInput.value).format("YYYY/MM/DD"));
   }
-  if (event.target === bookRoomButton) {
-    const roomText = event.target.closest(".room-card").children[0].innerText;
-    const roomNumber = Number(roomText.slice(-1));
-    if (user.id === "manager") {
-      console.log(customer.id);
-    } else {
-      const bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
-      console.log(bookingObject);
-    }
-  }
+  // if (bookRoomButtons.includes(event.target)) {
+  //   const roomText = event.target.closest(".room-card").children[0].innerText;
+  //   const roomNumber = Number(roomText.slice(-1));
+  //   if (user.id === "manager") {
+  //     console.log(customer.id);
+  //   } else {
+  //     const bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
+  //     console.log(bookingObject);
+  //   }
+  // }
   if (event.target === searchUsersButton) {
     event.preventDefault();
     showSearchedCustomer(customerNameInput.value);
   }
+}
+
+function bookingClickWrangler(event) {
+  const bookRoomButtons = document.querySelectorAll('.book-room-button');
+  bookRoomButtons.forEach(button => {
+    if (button === event.target) {
+      const roomText = event.target.closest(".room-card").children[0].innerText;
+      const roomNumber = Number(roomText.slice(-1));
+      let bookingObject;
+      if (user.id === "manager") {
+        bookingObject = buildBookingObject(puppet.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
+      } else {
+        bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
+      }
+      postNewBooking(bookingObject);
+    }
+  })
 }
 
 //https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users - user data endpoint
@@ -203,8 +222,8 @@ function renderRoomFound(room) {
 
 function showSearchedCustomer(name) {
   const searchedCustomer = user.searchUsersByName(loadData.users, name);
-  const customer = new Customer(searchedCustomer);
-  renderCustomerDashboard(customer);
+  puppet = new Customer(searchedCustomer);
+  renderCustomerDashboard(puppet);
   customerPage.style.display = "grid";
   renderManagerInteractions();
 }
