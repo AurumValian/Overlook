@@ -1,15 +1,10 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.scss';
 import User from './User';
 import Manager from './Manager';
 import Customer from './Customer';
 import Rooms from './Rooms';
-const moment = require("moment");
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 
+const moment = require("moment");
 const dateToday = moment(Date.now()).format("YYYY/MM/DD");
 
 const userWelcome = document.querySelector('.user-welcome');
@@ -30,6 +25,7 @@ const singleRoomButton = document.querySelector('.single-room-button');
 const juniorSuiteButton = document.querySelector('.junior-suite-button');
 const residentialSuiteButton = document.querySelector('.residential-suite-button');
 const suiteButton = document.querySelector('.suite-button');
+const confirmationOrErrorText = document.querySelector('.booking-confirmation');
 const customerNameInput = document.querySelector('.customer-name-input');
 const searchUsersButton = document.querySelector('.submit-search-users-button');
 const searchedRoomsPage = document.querySelector('.searched-rooms');
@@ -37,6 +33,7 @@ const managerInteractionPage = document.querySelector('.manager-interaction-page
 const deleteRoomInput = document.querySelector('.delete-room-input');
 const deleteDateInput = document.querySelector('.delete-date-input');
 const deleteBookingButton = document.querySelector('.delete-button');
+const puppetUserName = document.querySelector('.puppet-user-name');
 
 dateInput.defaultValue = "2020-01-01";
 deleteDateInput.defaultValue = "2020-01-01";
@@ -44,7 +41,8 @@ deleteDateInput.defaultValue = "2020-01-01";
 let loadData = {};
 let user;
 let rooms;
-let puppet;
+let puppetUser;
+
 window.onload = loadRuntime;
 window.addEventListener('click', clickWrangler);
 searchedRoomsPage.addEventListener('click', bookingClickWrangler);
@@ -80,8 +78,13 @@ function clickWrangler(event) {
   }
   if (event.target === deleteBookingButton) {
     event.preventDefault();
-    const bookingID = findBookingID(moment(deleteDateInput.value).format("YYYY/MM/DD"), deleteRoomInput.value, puppet.id);
-    deleteBooking(bookingID);
+    const bookingID = findBookingID(moment(deleteDateInput.value).format("YYYY/MM/DD"), deleteRoomInput.value, puppetUser.id);
+    if (bookingID) {
+      deleteBooking(bookingID);
+      confirmationOrErrorText.innerText = "You have deleted a booking for this user."
+    } else {
+      confirmationOrErrorText.innerText = "Invalid booking. Please choose a room and date for this user for a future booking.";
+    }
   }
 }
 
@@ -90,14 +93,14 @@ function bookingClickWrangler(event) {
   bookRoomButtons.forEach(button => {
     if (button === event.target) {
       const roomText = event.target.closest(".room-card").children[0].innerText;
-      const roomNumber = Number(roomText.slice(-1));
+      const roomNumber = Number(roomText.slice(-2));
       let bookingObject;
       if (user.id === "manager") {
-        bookingObject = buildBookingObject(puppet.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
+        bookingObject = buildBookingObject(puppetUser.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       } else {
         bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       }
-      postNewBooking(bookingObject);
+      bookAndRenderPage(user, bookingObject);
     }
   })
 }
@@ -191,11 +194,10 @@ function renderLoginErrorMessage() {
 
 function customerSearchRooms(type, date) {
   if (!date || date <= dateToday) {
-    searchedRoomsPage.innerHTML = `
-      <p class="date-error">Please enter a date after ${dateToday}</p>
-      `
+    confirmationOrErrorText.innerText = `Please enter a date after ${dateToday}.`
   } else {
     const roomsFound = rooms.searchByType(type, loadData.bookings, date);
+    confirmationOrErrorText.innerText = "";
     searchedRoomsPage.innerHTML = "";
     if (roomsFound.length === 0) {
       searchedRoomsPage.innerHTML = "<p class='no-rooms-message'>We are SO, SO, SO SORRY!\nWe apologize for the inconvenience, but there are no available rooms for that room type.\nPlease select a different room type or date.</p>"
@@ -208,6 +210,7 @@ function customerSearchRooms(type, date) {
 }
 
 function renderRoomFound(room) {
+  searchedRoomsPage.style.display = "grid";
   searchedRoomsPage.innerHTML += `
   <article class="room-card">
     <p class="room-number">Room ${room.number}<p><br>
@@ -217,13 +220,13 @@ function renderRoomFound(room) {
     <p class="price">Price: $${room.costPerNight}</p><br>
     <button class="book-room-button">Book Room</button>
   </article>
-  `
+  `;
 }
 
 function showSearchedCustomer(name) {
   const searchedCustomer = user.searchUsersByName(loadData.users, name);
-  puppet = new Customer(searchedCustomer);
-  renderCustomerDashboard(puppet);
+  puppetUser = new Customer(searchedCustomer);
+  renderCustomerDashboard(puppetUser);
   customerPage.style.display = "grid";
   renderManagerInteractions();
 }
@@ -231,6 +234,7 @@ function showSearchedCustomer(name) {
 function renderManagerInteractions() {
   managerPage.style.display = "none";
   managerInteractionPage.style.display = "block";
+  puppetUserName.innerText = `${puppetUser.name}'s page`;
 }
 
 function buildBookingObject(user, date, roomNumber) {
@@ -253,11 +257,21 @@ function postNewBooking(newBooking) {
     .catch(error => console.log(error));
 }
 
+function bookAndRenderPage(user, bookingObject) {
+  postNewBooking(bookingObject);
+  confirmationOrErrorText.innerText = `You have booked room ${bookingObject.roomNumber} for ${bookingObject.date}!`;
+  searchedRoomsPage.style.display = "none";
+  loadRuntime();
+  if (user.id === "manager") {
+    renderManagerPage();
+  } else {
+    renderCustomerPage(user.id);
+  }
+}
+
 function findBookingID(date, roomNumber, id) {
   if (date > dateToday) {
     let foundBooking = loadData.bookings.find(booking => {
-      // console.log(Number(roomNumber))
-      // console.log(booking.date, date, booking.roomNumber, roomNumber, booking.userID, id);
       return booking.date === date && booking.roomNumber === Number(roomNumber) && booking.userID === id;
     })
     return { "id": foundBooking.id };

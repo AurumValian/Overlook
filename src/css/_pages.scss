@@ -1,0 +1,51 @@
+.login-form {
+  font-size: 2em;
+}
+
+.login-error-message {
+  display: none;
+}
+
+.customer-page {
+  display: none;
+  grid-template-columns: 1fr 3fr;
+  margin-top: 3%;
+}
+
+.customer-dashboard {
+  text-align: center;
+  font-size: 1.4em;
+  margin-left: 10%;
+  width: 100%;
+  border: solid 6px $border-color;
+  background-color: $card-color;
+  height: 25em;
+  overflow: scroll;
+}
+.manager-page {
+  @extend .customer-page;
+}
+
+.manager-dashboard {
+  @extend .customer-dashboard;
+}
+
+.manager-interaction-page {
+  margin-left: 5%;
+  font-size: 1.5em;
+  display: none
+}
+
+.searched-rooms {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.book-room-button {
+  width: 40%;
+}
+
+.booking-confirmation {
+  margin-left: 5%;
+}
