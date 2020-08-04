@@ -93,9 +93,9 @@ function bookingClickWrangler(event) {
       const roomNumber = Number(roomText.slice(-1));
       let bookingObject;
       if (user.id === "manager") {
-        bookingObject = buildBookingObject(puppet.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
+        bookingObject = buildBookingObject(puppet.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       } else {
-        bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber)
+        bookingObject = buildBookingObject(user.id, moment(dateInput.value).format("YYYY/MM/DD"), roomNumber);
       }
       postNewBooking(bookingObject);
     }
@@ -251,4 +251,16 @@ function postNewBooking(newBooking) {
   })
     .then(response => response.json())
     .catch(error => console.log(error));
+}
+
+function deleteBooking(bookingID) {
+  fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+    method: 'DELETE',
+    headers: {
+      'content-Type': 'application/json'
+    },
+    body: JSON.stringify(bookingID)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error));
 }
