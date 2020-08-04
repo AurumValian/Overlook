@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta charset='UTF-8'>
+    <meta charset='UTF-8' name='viewport'>
     <title>Overlook Hotel</title>
   </head>
   <body>
@@ -11,10 +11,10 @@
     </header>
     <form class="login-form">
       <label for="username">Username</label><br>
-      <input type="text" class="username-input" name="username" required><br>
+      <input type="text" class="username-input" name="username"  aria-label="Username Input Field" required><br>
       <label for="password">Password</label><br>
-      <input type="password" class="password-input" name="password" required><br>
-      <button class="login-button">Log In</button>
+      <input type="password" class="password-input" name="password"  aria-label="Password Input Field"required><br>
+      <button class="login-button" aria-label="Login Button">Log In</button>
       <p class="login-error-message">Your username and/or password is incorrect.</p>
     </form>
     <section class="customer-page">
@@ -25,19 +25,19 @@
       </article>
       <form class="search-available-rooms">
         <label for="date">Select a Date:</label><br>
-        <input type="date" class="date-input" name="date" required></input><br>
+        <input type="date" class="date-input" name="date" aria-label"Input for Date to Search for Rooms"required></input><br>
         <label for="room-type">Search By Room Type</label><br>
-        <button class="single-room-button" name="single-room">Single Room</button><br>
-        <button class="junior-suite-button" name="junior-suite">Junior Suite</button><br>
-        <button class="residential-suite-button" name="residential-suite">Residential Suite</button><br>
-        <button class="suite-button" name="suite">Suite</button><br>
+        <button class="single-room-button" name="single-room" aria-label="Search for Single Rooms">Single Room</button><br>
+        <button class="junior-suite-button" name="junior-suite" aria-label="Search for Junior Suites">Junior Suite</button><br>
+        <button class="residential-suite-button" name="residential-suite" aria-label="Search for Residential Suites">Residential Suite</button><br>
+        <button class="suite-button" name="suite" aria-label="Search for Normal Suites">Suite</button><br>
       </form>
       <article class="manager-interaction-page">
         <form class="delete-bookings">
           <label for="delete-room">Room Number and Date to Delete for Current Customer</label>
-          <input type="text" class="delete-room-input" name="delete-room" required></input><br>
-          <input type="date" class="delete-date-input" name="delete-date" required></input><br>
-          <button class="delete-button">DELETE BOOKING</button>
+          <input type="text" class="delete-room-input" name="delete-room" aria-label="Input for Room Number of Booking to be Deleted" required></input><br>
+          <input type="date" class="delete-date-input" name="delete-date" aria-label="Input for Date of Booking to be Deleted" required></input><br>
+          <button class="delete-button" aria-label="Delete Booking Button">DELETE BOOKING</button>
         </form>
       </article>
     </section>
