@@ -4,8 +4,6 @@
 
 This was a solo project involving building an application to use APIs to develop a hotel management website where users can log in, book a room, and see their current bookings. A manager can log in, search for a user, book a room for that user, and delete an upcoming booking for that user. 
 
-[Overlook Website](https://aurumvalian.github.io/Overlook/)
-
 ## Setup
 
 1. Clone down the repository.
