@@ -261,9 +261,8 @@ function bookAndRenderPage(user, bookingObject) {
   postNewBooking(bookingObject);
   confirmationOrErrorText.innerText = `You have booked room ${bookingObject.roomNumber} for ${bookingObject.date}!`;
   searchedRoomsPage.style.display = "none";
-  loadRuntime();
   if (user.id === "manager") {
-    renderManagerPage();
+    renderCustomerPage(puppetUser.id);
   } else {
     renderCustomerPage(user.id);
   }
